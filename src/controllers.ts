@@ -38,14 +38,16 @@ const getNewsPaper = async (
 };
 
 const getDate = async (req: Request, res: Response, next: NextFunction) => {
-  const toDate = new Date(req.params.date);
-  const fromDate = new Date(toDate);
-  fromDate.setMinutes(fromDate.getMinutes() - 2);
-
-  console.log(toDate.toISOString());
-  console.log(fromDate.toISOString());
+  var toDate = new Date();
+  var fromDate = new Date();
 
   try {
+    toDate = new Date(req.params.date);
+    fromDate = new Date(toDate);
+    fromDate.setMinutes(fromDate.getMinutes() - 2);
+
+    console.log(toDate.toISOString());
+    console.log(fromDate.toISOString());
     const data = await HeadlinesModel.find({
       date: { $gte: fromDate, $lte: toDate },
     }).exec();
@@ -63,13 +65,15 @@ const getDateRange = async (
   res: Response,
   next: NextFunction
 ) => {
-  const toDate = new Date(req.params.to);
-  const fromDate = new Date(req.params.from);
-
-  console.log(fromDate.toISOString());
-  console.log(toDate.toISOString());
+  var toDate = new Date();
+  var fromDate = new Date();
 
   try {
+    toDate = new Date(req.params.to);
+    fromDate = new Date(req.params.from);
+
+    console.log(fromDate.toISOString());
+    console.log(toDate.toISOString());
     const data = await HeadlinesModel.find({
       date: { $gte: fromDate, $lte: toDate },
     }).exec();
