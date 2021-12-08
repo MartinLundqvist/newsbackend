@@ -9,6 +9,12 @@ const DB_PWD = process.env.DB_PWD;
 const DB_PORT = process.env.DB_PORT;
 const DB_DATABASE = process.env.DB_DATABASE;
 
+// For development against local database
+// const mongoUrl = `mongodb://${DB_USER}:${DB_PWD}@${DB_HOST}:${DB_PORT}/${DB_DATABASE}?authSource=admin&readPreference=primary&ssl=false`;
+
+// For running against Atlas Cloud DB
+const mongodbUrl = `mongodb+srv://${DB_USER}:${DB_PWD}@${DB_HOST}/${DB_DATABASE}?retryWrites=true&w=majority`;
+
 const HeadlineSchema = new mongoose.Schema({
   headline: {
     type: String,
@@ -35,9 +41,7 @@ const NewsPaperHeadlinesSchema = new mongoose.Schema({
 const connectToDB = async () => {
   try {
     console.log('Connecting to database');
-    await mongoose.connect(
-      `mongodb://${DB_USER}:${DB_PWD}@${DB_HOST}:${DB_PORT}/${DB_DATABASE}?authSource=admin&readPreference=primary&ssl=false`
-    );
+    await mongoose.connect(mongodbUrl);
     console.log('Connected to mongodb');
   } catch (err) {
     console.log(err);
