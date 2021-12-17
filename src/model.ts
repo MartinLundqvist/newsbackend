@@ -10,7 +10,7 @@ const DB_PORT = process.env.DB_PORT;
 const DB_DATABASE = process.env.DB_DATABASE;
 
 // For development against local database
-// const mongoUrl = `mongodb://${DB_USER}:${DB_PWD}@${DB_HOST}:${DB_PORT}/${DB_DATABASE}?authSource=admin&readPreference=primary&ssl=false`;
+// const mongodbUrl = `mongodb://${DB_USER}:${DB_PWD}@${DB_HOST}:${DB_PORT}/${DB_DATABASE}?authSource=admin&readPreference=primary&ssl=false`;
 
 // For running against Atlas Cloud DB
 const mongodbUrl = `mongodb+srv://${DB_USER}:${DB_PWD}@${DB_HOST}/${DB_DATABASE}?retryWrites=true&w=majority`;
