@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
-import { HeadlinesModel } from './model';
+import { AnalysisModel } from './models/analyses';
+import { HeadlinesModel } from './models/headlines';
 
 const getHeadlines = async (
   req: Request,
@@ -142,4 +143,110 @@ const getMetadata = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-export { getHeadlines, getNewsPaper, getDate, getDateRange, getMetadata };
+const getAnalysis = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const date = new Date(req.params.date);
+    const max = parseInt(req.query.max as string, 10) || 10;
+
+    console.log(max);
+    const analysisDate = new Date(
+      date.getFullYear(),
+      date.getMonth(),
+      date.getDate()
+    );
+
+    console.log('Fetching analysis data for ' + analysisDate.toString());
+    const data = await AnalysisModel.find(
+      {
+        date: analysisDate,
+      },
+      { headlines: { $slice: max } }
+    ).exec();
+
+    if (data.length > 0) {
+      console.log('Found an analysis for that date');
+      res.status(200).send(JSON.stringify(data));
+    } else {
+      console.log('No analysis found for that date');
+      res.status(500).send(
+        JSON.stringify({
+          message: `No analysis found for that date.`,
+          error: '',
+        })
+      );
+    }
+  } catch (err) {
+    res.status(500).send(
+      JSON.stringify({
+        message: `Error while finding analysis for that date.`,
+        error: err,
+      })
+    );
+  }
+};
+const getAnalysisDateRange = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const fromDate = new Date(req.params.from);
+    const toDate = new Date(req.params.to);
+    const max = parseInt(req.query.max as string, 10) || 10;
+
+    const analysisFromDate = new Date(
+      fromDate.getFullYear(),
+      fromDate.getMonth(),
+      fromDate.getDate()
+    );
+    const analysisToDate = new Date(
+      toDate.getFullYear(),
+      toDate.getMonth(),
+      toDate.getDate()
+    );
+
+    console.log(
+      'Fetching analysis data for ' +
+        analysisFromDate.toString() +
+        ' to ' +
+        analysisToDate.toString()
+    );
+    const data = await AnalysisModel.find(
+      {
+        date: { $gte: analysisFromDate, $lte: analysisToDate },
+        $sort: { date: -1 },
+      },
+      { headlines: { $slice: max } }
+    ).exec();
+
+    if (data.length > 0) {
+      console.log('Found ' + data.length + ' analysis for those dates');
+      res.status(200).send(JSON.stringify(data));
+    } else {
+      console.log('No analyses found for that date');
+      res.status(500).send(
+        JSON.stringify({
+          message: `No analyses found for that date.`,
+          error: '',
+        })
+      );
+    }
+  } catch (err) {
+    res.status(500).send(
+      JSON.stringify({
+        message: `Error while finding analyses for those dates.`,
+        error: err,
+      })
+    );
+  }
+};
+
+export {
+  getHeadlines,
+  getNewsPaper,
+  getDate,
+  getDateRange,
+  getMetadata,
+  getAnalysis,
+  getAnalysisDateRange,
+};

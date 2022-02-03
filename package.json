@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon --watch './**/*.ts' --exec 'ts-node' ./src/index.ts",
-    "build": "tsc",
-    "start": "node ./build/index.js"
+    "dev": "NODE_ENV=development nodemon ./src/index.ts",
+    "build": "rm -rf build && tsc",
+    "start": "NODE_ENV=production node ./build/index.js"
   },
   "author": "",
   "license": "ISC",

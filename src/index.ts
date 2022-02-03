@@ -1,10 +1,14 @@
 import express from 'express';
-import { config } from 'dotenv';
+import dotenv from 'dotenv';
 import routes from './routes';
 import cors from 'cors';
-import { connectToDB } from './model';
+import { connectToDB } from './database';
 
-const env = config();
+dotenv.config();
+
+console.log(
+  'Starting news-scraper-backend service in ' + process.env.NODE_ENV + ' mode'
+);
 
 const PORT = parseInt(process.env.PORT!, 10) || 4000;
 
