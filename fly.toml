@@ -3,11 +3,14 @@
 app = "news-scraper-backend"
 
 kill_signal = "SIGINT"
-kill_timeout = 5
+kill_timeout = 30
 processes = []
 
 [build]
   builder = "heroku/buildpacks:20"
+
+[deploy]
+  strategy = "immediate"
 
 [env]
   PORT = "8080"
@@ -15,3 +18,7 @@ processes = []
 [experimental]
   allowed_public_ports = []
   auto_rollback = true
+
+  [[services.ports]]
+    handlers = ["http"]
+    port = "80"
