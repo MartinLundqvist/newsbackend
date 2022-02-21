@@ -10,7 +10,11 @@ const DB_STRING =
 
 const connectToDB = async () => {
   try {
-    console.log('Connecting to database');
+    if (mongoose.connection.readyState === 1) {
+      console.log('Mongoose connection alive.');
+      return;
+    }
+
     await mongoose.connect(DB_STRING || '');
     console.log('Connected to mongodb');
   } catch (err) {

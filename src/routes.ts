@@ -3,7 +3,7 @@ import {
   getHeadlines,
   getNewsPaper,
   getDate,
-  getMetadata,
+  // getMetadata,
   getDateRange,
   getAnalysis,
   getAnalysisDateRange,
@@ -26,7 +26,7 @@ routes.get('/', getHeadlines);
 routes.get('/newspaper/:newspaper', getNewsPaper);
 routes.get('/date/:date', getDate);
 routes.get('/daterange/:from/:to', getDateRange);
-routes.get('/metadata', getMetadata);
+// routes.get('/metadata', getMetadata);
 routes.get('/analysis/:date', getAnalysis);
 routes.get('/analysis/daterange/:from/:to', getAnalysisDateRange);
 

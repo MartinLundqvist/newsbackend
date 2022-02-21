@@ -91,57 +91,57 @@ const getDateRange = async (
   }
 };
 
-interface IStringIndexed {
-  [index: string]: number;
-}
+// interface IStringIndexed {
+//   [index: string]: number;
+// }
 
-interface IMetaData {
-  count: number;
-  newspapers: IStringIndexed;
-  dates: {
-    first: Date;
-    last: Date;
-  };
-}
+// interface IMetaData {
+//   count: number;
+//   newspapers: IStringIndexed;
+//   dates: {
+//     first: Date;
+//     last: Date;
+//   };
+// }
 
-const getMetadata = async (req: Request, res: Response, next: NextFunction) => {
-  const metadata: IMetaData = {
-    count: 0,
-    newspapers: {
-      Aftonbladet: 0,
-      SVD: 0,
-      DN: 0,
-      Expressen: 0,
-      Sydsvenskan: 0,
-      GP: 0,
-    },
-    dates: {
-      first: new Date('1999'),
-      last: new Date('2021'),
-    },
-  };
+// const getMetadata = async (req: Request, res: Response, next: NextFunction) => {
+//   const metadata: IMetaData = {
+//     count: 0,
+//     newspapers: {
+//       Aftonbladet: 0,
+//       SVD: 0,
+//       DN: 0,
+//       Expressen: 0,
+//       Sydsvenskan: 0,
+//       GP: 0,
+//     },
+//     dates: {
+//       first: new Date('1999'),
+//       last: new Date('2021'),
+//     },
+//   };
 
-  try {
-    metadata.count = await HeadlinesModel.count();
-    for (var property in metadata.newspapers) {
-      metadata.newspapers[property] = await HeadlinesModel.count({
-        newspaper: property,
-      });
-    }
-    const sortedByDate = await HeadlinesModel.find({
-      $sort: { date: -1 },
-    });
+//   try {
+//     metadata.count = await HeadlinesModel.count();
+//     for (var property in metadata.newspapers) {
+//       metadata.newspapers[property] = await HeadlinesModel.count({
+//         newspaper: property,
+//       });
+//     }
+//     const sortedByDate = await HeadlinesModel.find({
+//       $sort: { date: -1 },
+//     });
 
-    metadata.dates.first = sortedByDate[0].date;
-    metadata.dates.last = sortedByDate[sortedByDate.length - 1].date;
+//     metadata.dates.first = sortedByDate[0].date;
+//     metadata.dates.last = sortedByDate[sortedByDate.length - 1].date;
 
-    res.status(200).send(JSON.stringify(metadata));
-  } catch (err) {
-    res
-      .status(500)
-      .send(JSON.stringify({ message: 'Error fetching metadata', error: err }));
-  }
-};
+//     res.status(200).send(JSON.stringify(metadata));
+//   } catch (err) {
+//     res
+//       .status(500)
+//       .send(JSON.stringify({ message: 'Error fetching metadata', error: err }));
+//   }
+// };
 
 const getAnalysis = async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -246,7 +246,7 @@ export {
   getNewsPaper,
   getDate,
   getDateRange,
-  getMetadata,
+  // getMetadata,
   getAnalysis,
   getAnalysisDateRange,
 };

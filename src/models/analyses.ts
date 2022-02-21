@@ -1,43 +1,5 @@
 import mongoose from 'mongoose';
-
-export type TNewsPaper =
-  | 'SVD'
-  | 'Aftonbladet'
-  | 'Sydsvenskan'
-  | 'GP'
-  | 'DN'
-  | 'Expressen'
-  | 'WSJ'
-  | 'Guardian';
-
-export type TLanguage = 'en' | 'se';
-
-export interface IHeadlineEntry {
-  headline: string;
-  language: TLanguage;
-  newspaper: TNewsPaper;
-  count: number;
-  share_of_total: number;
-}
-
-export interface IMarketDataPoint {
-  market: string;
-  symbol: string;
-  price: number;
-}
-
-export interface IMarketData {
-  timestamp: number;
-  data: IMarketDataPoint[];
-}
-
-export interface IAnalysis {
-  date: Date;
-  count: number;
-  unique: number;
-  headlines: IHeadlineEntry[];
-  market_data: IMarketData;
-}
+import { IAnalysis, IHeadlineEntry, IMarketData } from '../types';
 
 const MarketDataSchema = new mongoose.Schema<IMarketData>({
   timestamp: {
