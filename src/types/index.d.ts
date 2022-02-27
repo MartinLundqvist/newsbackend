@@ -19,6 +19,7 @@ export type TLanguage = 'en' | 'se';
 
 export interface IHeadlineEntry {
   headline: string;
+  url: string;
   language: TLanguage;
   newspaper: TNewsPaper;
   count: number;
